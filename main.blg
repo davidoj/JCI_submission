@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: plainnat.bst
+Database file #1: library.bib
+Repeated entry---line 3048 of file library.bib
+ : @article{fong_causal_2013
+ :                          ,
+I'm skipping whatever remains of this entry
+Warning--empty journal in saarela_role_2020
+Warning--empty booktitle in sunCausalInferenceChoosing2006
+You've used 47 entries,
+            2773 wiz_defined-function locations,
+            986 strings with 16677 characters,
+and the built_in function-call counts, 22602 in all, are:
+= -- 2261
+> -- 1025
+< -- 48
++ -- 353
+- -- 305
+* -- 1806
+:= -- 3504
+add.period$ -- 255
+call.type$ -- 47
+change.case$ -- 239
+chr.to.int$ -- 46
+cite$ -- 96
+duplicate$ -- 1033
+empty$ -- 1840
+format.name$ -- 390
+if$ -- 4807
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 48
+newline$ -- 350
+num.names$ -- 194
+pop$ -- 373
+preamble$ -- 1
+purify$ -- 194
+quote$ -- 0
+skip$ -- 765
+stack$ -- 0
+substring$ -- 901
+swap$ -- 159
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 497
+warning$ -- 2
+while$ -- 211
+width$ -- 0
+write$ -- 838
+(There was 1 error message)

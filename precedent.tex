@@ -1,0 +1,107 @@
+%!TEX root = main.tex
+
+\section{Precedent}\label{sec:precedent}
+
+We have suggested that IO contractibility is usually an unreasonably strong assumption for a decision maker to make, on the grounds that it implies overly strong interchangeability properties between different datasets. One way to get around this objection is to suppose that conditionally independent and identical responses are shared by pairs $(\RV{E}_i,\RV{X}_{i})$ where the $\RV{E}_i$ are in fact latent variables. In this case, the assumption would still assert that infinite $(\RV{E}_i,\RV{X}_{i})$ sequences arising from observation would be interchangeable with infinite $(\RV{E}_j,\RV{X}_{j})$ sequences arising as consequences of actions, but because the $\RV{E}_i$ are never observed these interchanges do not imply that we would use the same model for different experiments.
+
+To understand this construction, we will consider a kind of decision model featuring long sequence of exchangeable observations indexed by natural numbers and ``one more'' variable representing the ``consequences of action'' indexed by the special character $c$. That is, we have $(\RV{E}_i,\RV{X}_i)_{i\in \mathbb{N}}$ unresponsive to the decision maker's choice and $(\RV{E}_c,\RV{X}_c)$ responsive to this choice. Call this setup a ``see-do model''.
+
+We can relate the minimum size of the set $E$ of possible values of the latent inputs to the number of different options available to the decision maker. In particular it is always possible to construct a see-do model with latent conditionally independent and identical responses $\RV{E}_i$ from a see-do model $(\prob{P}_\cdot,\Omega,\sigalg{F})$ of $(\RV{X}_i)_{i\in \mathbb{N}\cup\{c\}}$ where the range $E$ of the variables $\RV{E}_i$ has size at least equal to the number of linearly independent options and observations.
+
+\begin{definition}[Dimension]
+Given a collection of probability distributions $A=\{\prob{P}_i|i\in B\}$ on a discrete space $X$, let $p_i:=(\prob{P}_i(\{x\}))_{x\in X}$. Then $\mathrm{dim}(A)=\mathrm{dim}(\mathrm{span}(\{p_i|i\in B\}))$.
+\end{definition}
+
+\begin{theorem}[construction of latent inputs]\label{th:construction_latent_inputs}
+Suppose a decision model $(\prob{P}_\cdot,C,\Omega)$ and observable variables $\RV{X}:=(\RV{X}_i)_{i\in \mathbb{N}\cup\{c\}}$ with $X$ discrete, $\RV{X}_{\mathbb{N}}$ exchangeable, $\RV{X}_\mathbb{N}\CI^e\mathrm{id}_C$ and $\RV{X}_c\CI^e\RV{X}_\mathbb{N}|(\RV{G},\mathrm{id}_C)$ where $\RV{G}$ is the directing random measure of $\RV{X}_\mathbb{N}$. Let 
+\begin{align}
+A_g:=\{\prob{P}_C^{\RV{X}_1\RV{G}}(\cdot|g)\}\cup\{\prob{P}_\alpha^{\RV{X}_c|\RV{G}}(\cdot|g)|\alpha\in C\}
+\end{align}
+and take $A:=\argmax_{\{A_g|g\in \Delta(X)\}}(\mathrm{dim}(A_g))$; assume $A$ is a finite set.
+
+Then there exists a sequence $\RV{E}:=(\RV{E}_i)_{i\in \mathbb{N}\cup\{c\}}$ on a refinement $\Omega'$ of $\Omega$ with $|E|= \mathrm{dim}(A)$ such that $(\prob{P}_\cdot',\RV{E},\RV{X})$ is IO contractible and for all $\alpha$, $\prob{P}_\alpha^{\prime \RV{X}} = \prob{P}_\alpha^{\RV{X}}$.
+
+Moreover, for any such sequence, $|E|\geq \mathrm{dim}(A)$.
+\end{theorem}
+
+\begin{proof}
+See Appendix \ref{sec:proof_precedent}
+\end{proof}
+
+\begin{example}
+More concretely, suppose we have an infinite set of observations $(\RV{X}_i)_{i\in \mathbb{N}}$ and one ``consequence'' $\RV{X}_c$. $X$ is binary, and the control we can exert is to choose either $\prob{P}_{0}^{\RV{X}} = \frac{1}{4}\delta_0 + \frac{3}{4}\delta_1$ or $\prob{P}_{1}^{\RV{X}} = \frac{3}{4}\delta_0 + \frac{1}{4}\delta_1$, independent of all other observations. Suppose further that for $i\in \mathbb{N}$, $\prob{P}_\alpha^{\RV{X}_i}=\delta_1$ independent of all other observations for all $\alpha\in\{0,1\}$. Then, because the dimension of
+\begin{align}
+	A=\{\frac{1}{4}\delta_0 + \frac{3}{4}\delta_1,\frac{3}{4}\delta_0 + \frac{1}{4}\delta_1,\delta_1\}
+\end{align}
+is 2, we can consider this model to be IO contractible with inputs $\RV{E}_i\in\{0,1\}$ such that
+\begin{align}
+	\prob{P}_\alpha^{\RV{X}_i|\RV{E}_i}(\cdot|e) &= \delta_e
+\end{align} 
+in this simple example, the directing measure $\RV{G}$ and the directing conditional $\RV{H}$ are trivial.
+\end{example}
+
+A special case of a see-do model with conditionally independent and identical responses is when, among the observations, $\prob{P}_\alpha^{\RV{E}_1|\RV{G}}(\cdot|g)$ has full support almost surely. In such a case, roughly speaking, the consequences of anything the decision maker can do have already been seen. We refer to this as a model in which the decision maker's actions have \emph{precedent}.
+
+Theorem \ref{th:latent_to_observable} shows that a slightly strengthened version of this assumption of precedent can have signigicant implications for a decision maker who wants to infer consequences from their observations. This theorem is motivated by the following example:
+
+\begin{example}\label{ex:doctor_precedent}
+Suppose we have a collection of doctors who each see a series of patients, offer a treatment $\RV{X}_i$ and report their results $\RV{Y}_i$. Each doctor may decide whether or not to prescribe based on any number of unobserved factors, and may offer additional unrecorded treatments, vary in their bedside manner and so forth, and these decisions could be stochastic. The decision maker is \emph{also} a doctor, and is reviewing the data contained in the sequences $(\RV{Z}_i,\RV{X}_i,\RV{Y}_i)_{i\in [n]}$, where $\RV{Z}_i$ identifies the doctor involved in the $i$th treatment interaction. The decision maker supposes that whatever overall treatment plan they will adopt (which could and probably does also involve features not listed in this set of variables), the same plan has probably been executed at least sometimes by some of these other doctors. Because the other doctors have some variation in their treatment behaviour, it stands to reason that different doctors making the same prescription decisions should see different results \emph{if, conditional on the prescription, the different treatment plans actually lead to different results}. Conversely, if there is \emph{no} variation in results different doctors obtain, then whether or not treatment occurred is presumably the \emph{only} important feature of any treatment plan.
+
+This story might fail if the doctors all knew exactly the long-run probabilistic outcomes of different treatment plans and coordinated with one another to mask any variation they induced. For example, doctor 1 picks a medium effectiveness unobserved plan 100\% of the time, while doctor 2 picks a highly effective unobserved plan 50\% of the time and a low effectiveness unobserved plan 50\% of the time, leading to the same distribution over outcomes. Approximate coordination is plausible -- everyone is likely to be aiming for similar goals, and may therefore make choices that are similarly effective. In order to conclude that the lack of variation between doctors is indicative of the importance of prescription decisions, our decision maker must somehow rule out coordination of this kind.
+
+Note that $\RV{X}_i$ needn't be limited to a particular treatment; in principle, the decision maker might explore many different candidates for a variable $\RV{X}_i$ which renders $\RV{Y}_i$ conditionally independent of $\RV{Z}_i$.
+\end{example}
+
+Theorem \ref{th:latent_to_observable} establishes formal conditions for the informal deduction described in Example \ref{ex:doctor_precedent}. 
+
+\begin{definition}[Index notation for discrete conditionals]
+Given a joint probability distribution $\mu^{\RV{XY}}$ with $\RV{X}$ and $\RV{Y}$ discrete, let $\mu^y_x:=\mu^{\RV{Y}|\RV{X}}(\{y\}|x)$ and $\mu^Y_X:= (x,y)\mapsto \mu^y_x$
+\end{definition}
+
+\begin{theorem}[Latent to observable IO contractibility]\label{th:latent_to_observable}
+Given a decision model $(\prob{P}_\cdot,(C,\sigalg{C}),(\Omega,\sigalg{F})$ and sequences $(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in\mathbb{N}\cup\{c\}}$, $(\RV{Z}_i)_{i\in \mathbb{N}}$ all taking values in discrete sets, suppose among the observations $i\in \mathbb{N}$, the pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i,\RV{Z}_i))$ share conditionally independent and identical responses and for all $i\in \mathbb{N}\cup\{c\}$ pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ share conditionally independent and identical responses. Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{E}_{\mathbb{N}},(\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in \mathbb{N}})$ and $\RV{H}$ to be the directing random conditional of $(\prob{P}_\cdot, \RV{E}_{\mathbb{N}\cup\{c\}}, (\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}\cup\{c\}})$. 
+
+Let $I\subset \Delta(Y)^{XZ}$ be the event $\RV{G}^Y_{Xz}=\RV{G}^Y_{Xz'}$ for all $z,z'\in Z$; i.e. the event that $\RV{Y}_i$ is independent of $\RV{Z}_i$ conditional on $\RV{X}_i$ and $\RV{G}$. For arbitrary $\alpha$, $\prob{Q}_\alpha\in \Delta(\Omega)$ be the probability measure such that, for all $A\in \sigalg{F}$
+\begin{align}
+\prob{Q}_\alpha(A) := \prob{P}_\alpha^{\mathrm{id}_\Omega|\mathds{1}_I\circ \RV{G}^{Y}_{XZ}}(A|1)
+\end{align}
+i.e. $\prob{Q}_\alpha$ is $\prob{P}_\alpha$ conditioned on $\RV{G}^{Y}_{XZ}\in I$.
+
+Thus $\RV{Y}_i \CI^e_{\prob{Q}} \RV{Z}_i | (\RV{X}_i, \mathrm{id}_C)$. Suppos for all $\alpha$, $\prob{Q}_\alpha$-almost all $z,z'\in Z$, $e\in E$, $g^E_{z}\in \Delta(E)$, $g^{XY}_{EZ}\in \Delta(X\times Y)^{E\times Z}$, $\prob{Q}_\alpha$ satisfies the \emph{dominated posterior} assumption:
+\begin{align}
+	\prob{Q}_{\alpha}^{\RV{G}^E_{z'}|\RV{G}^{XY}_{EZ}\RV{G}^E_{z}}(\cdot|g^{XY}_{EZ},g^e_{z}) \ll U_{\Delta(D)}\label{eq:lebesgue_dom}
+\end{align}
+Where $U_{\Delta(D)}$ is the uniform measure on the $|D-1|$ simplex of discrete probability distributions with $|D|$ outcomes. Then $(\prob{Q}_\cdot,\RV{X},\RV{Y})$ is also IO contractible.
+\end{theorem}
+
+\begin{proof}
+We show that the assumption of conditional independence imposes a polynomial constraint on $\RV{G}^d_z$ which is nontrivial unless $\RV{Y}_i\CI^e (\RV{Z}_i,\RV{E}_i,\text{id}_C)|(\RV{X}_i,\RV{H})$, and hence the solution set $S$ for this constraint has measure 0 when this conditional independence does not hold.
+
+Full proof in Appendix \ref{sec:proof_precedent}.
+\end{proof}
+
+\section{Under what circumstances are latent IO contractible models appropriate?}
+
+The crucial assumption in Theorem \ref{th:latent_to_observable} -- apart from latent IO contractibility -- is the assumption that the distribution of the conditional distribution of the latent variable is dominated by the Lebesgue measure. To see why this is critical, consider that every sequence $(\RV{X}_i,\RV{Y}_i)_{i\in\mathbb{N}}$ can be transformed to the IO contractible sequence $((\RV{X}_i,\RV{Y}_i),(\RV{X}_i,\RV{Y}_i))_{i\in\mathbb{N}}$. Thus, were the dominated posterior assumption not required by Theorem \ref{th:latent_to_observable}, \emph{any} nontrivial conditional independence would imply observable IO contractibility. However, the sequence $((\RV{X}_i,\RV{Y}_i),(\RV{X}_i,\RV{Y}_i))_{i\in\mathbb{N}}$ does not satisfy the dominated posterior assumption. In particular, if $\RV{Y}_i \CI^e_{\prob{Q}} \RV{Z}_i | (\RV{X}_i,\RV{G}^Y_{XZ}, \mathrm{id}_C)$ then fixing $\RV{G}^{XY}_{z}=g^{XY}_z$ for some $z$ implies $\RV{G}^{XY}_{z'}$ must be such that $\RV{G}^Y_{Xz} = \RV{G}^Y_{Xz'}$, a Lebesgue measure 0 event.
+
+If $\prob{P}_\alpha^{\RV{G}}$ is dominated by the uniform measure on $\Delta(EXYZ)$, then $\prob{P}_\alpha^{\RV{G}^E_Z|\RV{G}^{XY}_{EZ}}(\cdot|g^{XY}_{EZ})$ is dominated by the uniform measure on $\Delta(E)^Z$ for almost all $(g^{XY}_{EZ},g^Z)$ \citep[pg. 155]{cinlar_probability_2011}. However, this is not enough for Theorem \ref{th:latent_to_observable} -- we condition on $I\subset \Delta(Y)^{XZ}$, which is a measure 0 event with respect to the uniform measure on $\Delta(EXYZ)$.
+
+In light of this, it would be very useful to extend Theorem \ref{th:latent_to_observable} to an approximate result. Specifically, in the event $\RV{Y}_i$ is approximately independent of $\RV{Z}_i$ given $\RV{X}_i$ and $\RV{G}$, under what conditions is $\RV{Y}_i$ also approximately independent of $\RV{E}_i$ given $\RV{X}_i$ and $\RV{G}$? 
+
+For theorem \ref{th:latent_to_observable} to hold, the latent inputs must support the assumption of a dominated posterior for the conditional $\RV{G}^E_Z$, and for an approximate result along the same lines we posit that a stronger requirement of diversity for the posterior over conditional distributions $\{\RV{G}^E_z|z\in Z\}$ will be necessary. We don't know in general how these requirements should be understood.
+
+The dominated posterior assumption also has a connection to the theory of causal graphical models. \citet{meek_strong_1995} justified the \emph{faithfulness} condition for causal graphs associated with discrete probability models on the assumption that the distribution of parameters of a distribution consistent with a particular causal graph are dominated by the Lebesgue measure. In this theory, we have a discrete set of hypotheses over causal structures that imply some conditional independences, and Lebesge-dominated priors over the directing measure after conditioning on any of the causal structure hypotheses and their associated independences. Applying similar reasoning to the present case, we posit an argument along these lines: if we have the independence $\RV{Y}_i\CI^e_{\prob{Q}}(\RV{E}_i,\RV{Z}_i)|(\RV{X}_i,\RV{G},\mathrm{id}_C)$ but not the independence $\RV{E}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{G},\mathrm{id}_C)$ and furthermore $\RV{Z}_i$ is an ancestor of $\RV{E}_i$ and $(\RV{E}_i,\RV{Z}_i)$ is an ancestor of $(\RV{X}_i,\RV{Y}_i)$ (so that $\RV{G}^E_Z$ and $\RV{G}^{XY}_{EZ}$ are associated with forward edges in the causal model) then the dominated posterior assumption may be supported. Note that it may be possible to rule out the independence $\RV{E}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{G},\mathrm{id}_C)$ on the basis of the non-independence of $\RV{Z}_i$ and $\RV{X}_i$.
+
+Another relation between theory of causal graphical models and the present work may be found in the \emph{causal version of the principle of maximum entropy} \citep{sunCausalInferenceChoosing2006,janzingCausalVersionsMaximum2021}. The causal version of the principle of maximum entropy, in contrast to the standard version of the principle, suggests that priors be specified by sequentially maximising the entropy of a cause, then maximising the conditional entropy of the first effect given the cause and so forth. While the cited articles discuss using the principle of entropy maximisation to specify prior distributions over observed variables rather than distributions over directing conditionals, the same principle may perhaps be applied to the specification of priors over directing conditionals. We posit that the causal version of the prinicple of maximum entropy might support a similar line of argument: if $\RV{Y}_i\CI^e_{\prob{Q}}(\RV{E}_i,\RV{Z}_i)|(\RV{X}_i,\RV{G},\mathrm{id}_C)$ but not independence $\RV{E}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{G},\mathrm{id}_C)$ and $\RV{Z}_i$ is an ancestor of $\RV{E}_i$ and $(\RV{E}_i,\RV{Z}_i)$ is an ancestor of $(\RV{X}_i,\RV{Y}_i)$, then perhaps the causal version of the principle of maximum entropy offers some support for the dominated posterior assumption. Note that this (as well as the implication suggested in the previous paragraph) are highly speculative.
+
+\section{Conclusion}
+
+We employ a decision theoretic approach to causal inference to investigate two different approaches to answering the question ``how do my observations relate to the consequences of my choices?'' Our approach allows us to consider the question of what observations and consequences have in common independently from any prior knowledge the decision maker might have about how their choices influence outcomes -- neither Theorem \ref{th:ciid_rep_kernel} nor Theorem \ref{th:latent_to_observable} depend on any assumptions about a decision maker's prior knowledge of the effects of their different options (though the plausibility of the assumptions in both theorems may well depend on such prior knowledge).
+
+The grand aim of this work is to facilitate causal inference in situations where a decision maker has relatively little causal knowledge at the outset. We think avoiding structured interventions in this setting is advantageous because we regard the question of whether an action is known in advance to influence a particular variable as substantially more transparent than the question of whether it is well modeled by a structured intervention (of any type) on that variable.
+
+Nevertheless, this work leaves many open questions for causal inference in the low prior knowledge setting. We have argued that the assumptions required for Theorem \ref{th:ciid_rep_kernel} are unlikely to be compelling in many situations. While Theorem \ref{th:latent_to_observable} may be more broadly plausible, we've identified the ``dominated posterior'' assumption as a particularly difficult one to evaluate. We've suggested that there might be a connection between this assumption and causal structure assumptions. If this is so, one might also want to ask how often the relevant structural assumptions are transparent to a decision maker.
+
+For any practical inference, a generalisation of Theorem \ref{th:latent_to_observable} to approximate independence is in order. Such a generalisation may bring additional clarity to the dominated posterior assumption.
+
+Despite these challenges, we are encouraged by a number of features of this work. Using decision making as a starting point for constructing models means that, at the outset, we are only making commitments a decision maker is likely to already be making if they want to apply a formal theory of decision making. The informal idea of precedent that underpins Theorem \ref{th:latent_to_observable} seems like a general principle that may be applicable in a broad range of data-driven decision making problems. Finally, the apparent connection between Theorem \ref{th:latent_to_observable} suggests that much of the work already done in the world of causal graphical models may be applicable to our alternative perspective. Causal inference under circumstances of limited prior knowledge presents many hard conceptual as well as practical problems, and our approach is a promising new avenue of investigation.
