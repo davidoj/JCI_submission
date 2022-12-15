@@ -277,7 +277,9 @@ Thus the action of the $\text{Del}$ map is to marginalise over the deleted wire.
 	&= \kernel{K}(A|x)
 \end{align}
 
-\section{Equality of equally sized contractions}\label{sec:equal_condits}
+\section{Symmetries of conditional probabilities}\label{app:io_contract_examples}
+
+\subsection{Equality of equally sized contractions}\label{sec:equal_condits}
 
 This is the proof of Theorem \ref{th:equal_of_condits}.
 
@@ -397,9 +399,9 @@ If:
 Taking $A=[n]$ for all $n$ establishes locality, and taking $A=(\rho(i))_{i\in \mathbb{N}}$ for arbitrary finite permutation $\rho$ establishes exchange commutativity.
 \end{proof}
 
-\section{Symmetries of conditional probabilities}\label{sec:io_contract_proofs}
+\subsection{Examples of symmetries}\label{app:examples_symmetries}
 
-Example \ref{ex:no_implication} shows that neither locality nor exchange commutativity is implied by the other.
+These are the examples referenced in Section \ref{sec:ccontracibility}. Example \ref{ex:no_implication} shows that neither locality nor exchange commutativity is implied by the other.
 
 \begin{example}\label{ex:no_implication}
 We prove the claim by way of presenting counterexamples.
@@ -449,9 +451,11 @@ Consider an experiment where I first flip a coin and record the results of this 
 Thus the marginal distribution of both experiments in isolation is $\text{Bernoulli}(0.5)$ no matter what choices I make, but the input $\RV{D}_1$ affects the joint distribution of the results of both steps, which is not ruled out by locality.
 \end{example}
 
-\section[Representation]{Representation of IO contractible models}\label{app:representation_proof}
+\subsection[Representation]{Representation theorem preliminaries}\label{app:representation_proof}
 
-This is the proof of Lemmas \ref{th:table_rep_kernel} and \ref{lem:ciid_yd} and Theorem \ref{th:any_infinite_sequence}. The following definitions are reproduced for convenience. Note that these proofs use the string diagram notation explained in Appendix \ref{ssec:mken_diagrams}.
+This is the proof of Lemmas \ref{th:table_rep_kernel} and \ref{lem:ciid_yd} and Theorem \ref{th:any_infinite_sequence} from Section \ref{sec:rep_theorem_background}. In addition, Lemmas \ref{lem:ciid_yd} and \ref{lem:hw_interchange} are presented and proved, which will be later used in the proof of Theorem \ref{th:ciid_rep_kernel}.
+
+The following definitions are reproduced for the reader's convenience. Note that these proofs use the string diagram notation explained in Appendix \ref{ssec:mken_diagrams}.
 
 \begin{repdefinition}{def:count_of_inputs}
 Given a sequential input-output model $(\prob{P}_{\cdot},\RV{D},\RV{Y})$ on $(\Omega,\sigalg{F})$ with countable $D$, $\#_{j}^k$ is the variable
@@ -469,7 +473,23 @@ Given a sequential input-output model $(\prob{P}_{\cdot},\RV{D},\RV{Y})$ on $(\O
 That is, the $(i,j)$-th coordinate of $\RV{Y}^D(\omega)$ is equal to the coordinate $\RV{Y}_k(\omega)$ for which the corresponding $\RV{D}_k(\omega)$ is the $i$th instance of the value $j$ in the sequence $(\RV{D}_1(\omega),\RV{D}_2(\omega),...)$, or 0 if there are fewer than $i$ instances of $j$ in this sequence.
 \end{repdefinition}
 
-The proof of the theorem follows.
+\begin{replemma}{th:table_rep_kernel}
+Suppose a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is given with $D$ countable and $\RV{D}$ infinitely supported. Then for some $\RV{W}$, $\alpha$, $\prob{P}_\alpha^{\RV{Y}|\RV{WD}}$ is IO contractible if and only if
+\begin{align}
+    \prob{P}_\alpha^{\RV{Y}|\RV{WD}} &= \tikzfig{lookup_representation_kernel}\label{eqApp:lup_rep_kernel}\\
+    &\iff\\
+    \prob{P}_\alpha^{\RV{Y}|\RV{WD}}(\bigtimes_{i\in \mathbb{N}}A_i|w,(d_i)_{i\in \mathbb{N}}) &= \prob{P}_\alpha^{(\RV{Y}^D_{i d_i})_{i\in\mathbb{N}}|\RV{W}}(\bigtimes_{i\in \mathbb{N}}A_i|w)&\forall A_i\in \sigalg{Y}^{D}, w\in W, d_i\in D
+\end{align}
+Where $\prob{F}_{\text{lu}}$ is the Markov kernel associated with the lookup map
+\begin{align}
+    \text{lu}:X^\mathbb{N}\times Y^{\mathbb{N}\times D}&\to Y\\
+    ((x_i)_\mathbb{N},(y_{ij})_{i,j\in \mathbb{N}\times D})&\mapsto (y_{i d_i})_{i\in \mathbb{N}}
+\end{align}
+and for any finite permutation within rows $\eta:\mathbb{N}\times D\to \mathbb{N}\times D$
+\begin{align}
+    \prob{P}_\alpha^{(\RV{Y}^D_{ij})_{\mathbb{N}\times D}|\RV{W}}&= \prob{P}_\alpha^{(\RV{Y}^D_{\eta(i,j)})_{\mathbb{N}\times D}|\RV{W}}\label{eqApp:col_exch}
+\end{align}
+\end{replemma}
 
 \begin{proof}
 Only if:
@@ -623,8 +643,6 @@ Let $\text{con}_{q}:Y^{\mathbb{N}\times D}\kto Y^{\mathbb{N}\times D}$ be the Ma
 Finally, take $\RV{H}_A$ the directing random measure of $\RV{Y}^{D,A}$. We conclude from the equality Eq. \eqref{eqApp:equal_of_tabs} and from the fact that there is a one-to-one map from directing random measures to exchangeable distributions that $\RV{H}_A\overset{\prob{P}_\alpha}{\cong} \RV{H}$.
 \end{proof}
 
-\subsection{IO contractibility proofs}\label{sec:io_contract_models}
-
 The following is a technical lemma that will be used in Theorem \ref{th:ciid_rep_kernel}.
 
 \begin{lemma}\label{lem:hw_interchange}
@@ -741,6 +759,10 @@ Furthermore, by marginalising the right hand side of Equation \ref{eqApp:disinte
 \end{align}
 Hence $\RV{H} \CI^e_{\prob{P}_C} \RV{D} | (\RV{W},\text{id}_C)$.
 \end{proof}
+
+\subsection{Representation theorem}\label{sec:io_contract_models}
+
+This is the proof of the main result from Section \ref{sec:evaluating_decisions}, Theorem \ref{th:ciid_rep_kernel}. 
 
 \begin{reptheorem}{th:ciid_rep_kernel}
 Suppose a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ with sample space $(\Omega,\sigalg{F})$ is given with $D$ countable and $\RV{D}$ infinitely supported. Then the following are equivalent:
@@ -910,78 +932,32 @@ By construction
 is exchangeable, and by domination $\prob{Q}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{Y}_{\{i^{\complement}\}},\RV{D}_{\{i^{\complement}\}}}\overset{\prob{P}}{\cong}\prob{Q}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{Y}_{\{i^{\complement}\}},\RV{D}_{\{i^{\complement}\}}}$. The result follows from Lemma \ref{lem:dom_cond}.
 \end{proof}
 
-\section{Precedent}\label{sec:proof_precedent}
+\section{Precedented options}\label{sec:proof_precedent}
 
-\begin{reptheorem}{th:construction_latent_inputs}
-Suppose a decision model $(\prob{P}_\cdot,C,\Omega)$ and observable variables $\RV{X}:=(\RV{X}_i)_{i\in \mathbb{N}\cup\{c\}}$ with $X$ discrete, $\RV{X}_{\mathbb{N}}$ exchangeable, $\RV{X}_\mathbb{N}\CI^e\mathrm{id}_C$ and $\RV{X}_c\CI^e\RV{X}_\mathbb{N}|(\RV{G},\mathrm{id}_C)$ where $\RV{G}$ is the directing random measure of $\RV{X}_\mathbb{N}$. Let 
+This is the proof of Theorem \ref{th:latent_to_observable} in Section \ref{sec:precedent}.
+
+\begin{repdefinition}[Diverse precedent]
+Given a see-do model $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ with $E,X,Y$ and $Z$ all discrete sets, suppose among the observations $i\in \mathbb{N}$ the pairs $(\RV{Z}_i,(\RV{E}_i,\RV{X}_i,\RV{Y}_i))$ share conditionally independent and identical responses and, for all observations and consequences $i\in \mathbb{N}\cup\{c\}$, pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ also share conditionally independent and identical responses.
+
+Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{Z}_{\mathbb{N}},(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}})$. 
+
+We say that the options $C$ have \emph{diverse precedent} with respect to $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ if for all $\alpha$, $\prob{P}_\alpha$-almost all $z,z'\in Z$, $e\in E$, $g^E_{z}\in \Delta(E)$, $g^{XY}_{EZ}\in \Delta(X\times Y)^{E\times Z}$, $\prob{P}_\alpha$ satisfies the condition:
 \begin{align}
-A_g:=\{\prob{P}_C^{\RV{X}_1\RV{G}}(\cdot|g)\}\cup\{\prob{P}_\alpha^{\RV{X}_c|\RV{G}}(\cdot|g)|\alpha\in C\}
+    \prob{P}_{\alpha}^{\RV{G}^E_{z'}|\RV{G}^{XY}_{EZ}\RV{G}^E_{z}}(\cdot|g^{XY}_{EZ},g^E_{z}) \ll U_{\Delta(E)}\label{eq:lebesgue_dom}
 \end{align}
-and take $A:=\argmax_{\{A_g|g\in \Delta(X)\}}(\mathrm{dim}(A_g))$; assume $A$ is a finite set.
-
-Then there exists a sequence $\RV{E}:=(\RV{E}_i)_{i\in \mathbb{N}\cup\{c\}}$ on a refinement $\Omega'$ of $\Omega$ with $|E|= \mathrm{dim}(A)$ such that $(\prob{P}_\cdot',\RV{E},\RV{X})$ is IO contractible and for all $\alpha$, $\prob{P}_\alpha^{\prime \RV{X}} = \prob{P}_\alpha^{\RV{X}}$.
-
-Moreover, for any such sequence, $|E|\geq \mathrm{dim}(A)$.
-\end{reptheorem}
-
-
-
-\begin{proof}
-Take $E=[dim(A)]$.
-
-Take $B_g:=\mathrm{EP}(\mathrm{span}(A_g)\cap \Delta(X))$ where $\mathrm{EP}$ is the function that returns the extreeme points of a convex set (note that $A_g$ is the intersection of two convex sets). $(b_{ig})_{i\in |B_g|}$ some enumeration of the elements of $B_g$. For each $g\in \Delta(X)$, $i\in\mathbb{N}\cup\{c\}$ set $\prob{P}_\alpha^{\RV{X}_i|\RV{E}_i\RV{G}}(\cdot|e,g)=b_{eg}$. 
-
-Define
-\begin{align}
-    d_{g\alpha} := \begin{cases}
-                \prob{P}_C^{\RV{X}_1|\RV{G}}(\cdot|g) & \alpha\not\in C\\
-                \prob{P}_{\alpha}^{\RV{X}_c|\RV{G}}(\cdot|g) & \alpha\in C
-              \end{cases}
-\end{align}
-
-By construction, for each $d_{g\alpha}$ there is some set of weights $\{0\leq w^e{g \alpha}|e\in E\}$, $\sum_{e\in E} w^e_{g \alpha} = 1$ such that 
-\begin{align}
-    d_{g\alpha} = \sum_{e\in E} w^e_{g \alpha} b_{eg}
-\end{align}
-Let $o$ be some index that is not an element of $C$. Set
-\begin{align}
-    \prob{P}_\alpha^{\prime \RV{E}_i|\RV{G}}(e|g)= \begin{cases}
-        w^e_{g o} & i\in\mathbb{N}\\
-        w^e_{g \alpha} & i=c
-    \end{cases} 
-\end{align}
-Then $i\in\mathbb{N}$ implies
-\begin{align}
-    \sum_{e\in E} \prob{P}_\alpha^{\prime \RV{X}_i|\RV{E}_i\RV{G}}(\{x\}|e,g)\prob{P}_\alpha^{\prime \RV{E}_1|\RV{G}}(\{e\}|g) &= \sum_{e\in E}b^x_{eg} w^e_{g o}\\
-    &= \prob{P}_{\alpha}^{\RV{X}_i|\RV{G}}(\{x\}|g)
-\end{align}
-and
-\begin{align}
-    \sum_{e\in E} \prob{P}_\alpha^{\RV{X}_c|\RV{E}_c\RV{G}}(J|e,g)\prob{P}_\alpha^{\RV{E}_c|\RV{G}}(\{e\}|g) &= \sum_{e\in E}b_{eg} w^e_{g \alpha}\\
-    &= \prob{P}_{\alpha}^{\RV{X}_c|\RV{G}}(\{x\}|g)
-\end{align}
-
-Finally, choose $\prob{P}_\alpha^{\prime \RV{E}|\RV{X}\RV{G}}$ such that $\RV{E}\CI^e\RV{X}|(\RV{G},\mathrm{id}_C)$ and $\prob{P}_\alpha^{\prime \RV{G}}=\prob{P}_\alpha^{\RV{G}}$.
-
-Then
-\begin{align}
-    \prob{P}_{\alpha}^{\prime \RV{X}}(\{x_{\mathbb{N}\cup\{c\}}\}) &= \int_G \sum_{e\in E} \prob{P}_\alpha^{\prime \RV{E}_i|\RV{G}}(\{e\}|g)\prob{P}_\alpha^{\prime \RV{X}_i|\RV{E}_i\RV{G}}(\{x_i\}|e,g)\prob{P}_\alpha^{\prime \RV{G}}(\mathrm{d}g)\\
-    &= \int_G \prob{P}_\alpha^{\RV{X}_i|\RV{G}}(\{x_i\}|g)\prob{P}_\alpha^{\RV{G}}(\mathrm{d}g)\\
-    &= \prob{P}_\alpha^{\RV{X}}
-\end{align}
-\end{proof}
+Where $U_{\Delta(E)}$ is the uniform measure on the $|E-1|$ simplex of discrete probability distributions with $|E|$ outcomes.
+\end{repdefinition}
 
 \begin{reptheorem}{th:latent_to_observable}
-Given a decision model $(\prob{P}_\cdot,(C,\sigalg{C}),(\Omega,\sigalg{F})$ and sequences $(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in\mathbb{N}\cup\{c\}}$, $(\RV{Z}_i)_{i\in \mathbb{N}}$ all taking values in discrete sets, suppose the observations $(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in \mathbb{N}}$ are exchangeable for all options $\alpha\in C$ and pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ share conditionally independent responses. Take $\RV{G}$ to be the directing random measure of the observations $\prob{P}_\alpha^{(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in \mathbb{N}}}$ and $\RV{H}$ to be the directing random conditional of $(\prob{P}_\cdot, \RV{E}_i, (\RV{X}_i,\RV{Y}_i))$. 
+Given a see-do model $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ with $E,X,Y$ and $Z$ all discrete sets, suppose among the observations $i\in \mathbb{N}$ the pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i,\RV{Z}_i))$ share conditionally independent and identical responses and, for all observations and consequences $i\in \mathbb{N}\cup\{c\}$, pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ also share conditionally independent and identical responses. Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{Z}_{\mathbb{N}},(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}})$.
 
-Fix some $g^{XY}_{EZ}\in \Delta(X\times Y)^{EZ}$, and let $\prob{Q}_\alpha:= \prob{P}_\alpha^{\mathrm{id}_\Omega|\RV{G}^{XY}_{EZ}}(\cdot|g^{XY}_{EZ})$ -- i.e. $\prob{Q}_\alpha$ is $\prob{P}_\alpha$ conditioned on $\RV{G}^{XY}_{EZ}=g^{XY}_{EZ}$.
-
-Suppose for any $i\in\mathbb{N}$, $\RV{Y}_i \CI^e_{\prob{Q}} \RV{Z}_i | (\RV{X}_i,\RV{G}^Y_{XZ}, \mathrm{id}_C)$ and for all $\alpha$, $\prob{Q}_\alpha$-almost all $z,z'\in Z$, $e\in E$, $g^e_{z}\in [0,1]$, $g^Y_{EXZ}\in $ satisfies the \emph{dominated posterior} assumption:
+Let $I\subset \Delta(Y)^{XZ}$ be the event $\RV{G}^Y_{Xz}=\RV{G}^Y_{Xz'}$ for all $z,z'\in Z$; i.e. the event that $\RV{Y}_i$ is independent of $\RV{Z}_i$ conditional on $\RV{X}_i$ and $\RV{G}$. Define $\prob{Q}_\alpha\in \Delta(\Omega)$ to be the probability measure such that, for all $A\in \sigalg{F}$
 \begin{align}
-    \prob{Q}_{\alpha}^{\RV{G}^E_{z'}|\RV{G}^E_{z}}(\cdot|g^e_{z}) \ll U_{[0,1]^{|E|}}\label{eq:lebesgue_dom_app}
-\end{align} 
+\prob{Q}_\alpha(A) := \prob{P}_\alpha^{\mathrm{id}_\Omega|\mathds{1}_I\circ \RV{G}}(A|1)
+\end{align}
+i.e. $\prob{Q}_\alpha$ is $\prob{P}_\alpha$ conditioned on $\RV{G}^Y_{XZ}\in I$, so $\RV{Y}_i\CI^e_{\prob{Q}_\cdot} \RV{Z}_i|(\RV{X}_i,\mathrm{id}_C)$.
 
-then $(\prob{Q}_\cdot,\RV{X},\RV{Y})$ is also IO contractible.
+If the options $C$ have diverse precedent with respect to $(\prob{Q}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$, then $(\prob{Q}_\cdot,\RV{X},\RV{Y})$ is also IO contractible.
 \end{reptheorem}
 
 \begin{proof}

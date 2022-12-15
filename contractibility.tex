@@ -1,8 +1,8 @@
 %!TEX root = main.tex
 
-\section[IO contractibility]{Input Output contractibility}\label{sec:evaluating_decisions}
+\section[Shared responses]{When observations and consequences share responses}\label{sec:evaluating_decisions}
 
-Suppose a decision maker has a decision model $(\prob{P}_{\cdot}, (C,\sigalg{C}), (\Omega,\sigalg{F}))$ and a sequences of random variable pairs $(\RV{X}_i,\RV{Y}_i)_{i\in [m+n]}$ where $[m+n]$ is the set $\{1,2,...,m+n\}$ where $\RV{X}_i$ is an individual's body mass index and $\RV{Y}_i$ is a variable taking values in $\{0,1\}$ indicating whether or not they died during the follow-up period. The first $m$ pairs in the sequence are observations unaffected by the decision maker and the next $n$ pairs are affected by their choice. The decision maker wants to learn something from the uncontrolled pairs of observations $(\RV{X}_{[m]},\RV{Y}_{[m]})$ to help make a decision that will promote good outcomes among the controlled pairs $(\RV{X}_{[m+1,n]},\RV{Y}_{[m+1,n]})$. In order to do this, the decision maker might assume:
+Returning to the example of body mass index and mortality raised in the introduction, we will present an implausible but relatively simple account of how a decision maker might leverage their observations to draw conclusions about how actions that affect body mass index can affect mortality. The key assumption they make is to suppose that whether or not an individual dies during the study period is related by a ``fixed but unknown stochastic function'' to their body mass index at the start of the study period -- and this is true for individuals who were part of the observation set and individuals who may be influenced by the decision maker alike. Suppose our decision maker has a decision model $(\prob{P}_{\cdot}, (C,\sigalg{C}), (\Omega,\sigalg{F}))$ and a sequences of random variable pairs $(\RV{X}_i,\RV{Y}_i)_{i\in [m+n]}$ where $[m+n]$ is the set $\{1,2,...,m+n\}$ where $\RV{X}_i$ is an individual's body mass index and $\RV{Y}_i$ is a variable taking values in $\{0,1\}$ indicating whether or not they died during the follow-up period. The first $m$ pairs in the sequence are observations unaffected by the decision maker and the next $n$ pairs are affected by their choice. The decision maker wants to learn something from the uncontrolled pairs of observations $(\RV{X}_{[m]},\RV{Y}_{[m]})$ to help make a decision that will promote good outcomes among the controlled pairs $(\RV{X}_{[m+1,n]},\RV{Y}_{[m+1,n]})$. In order to do this, the decision maker might assume:
 \begin{itemize}
     \item They already know how their choices determine the marginal distribution $\prob{P}_\alpha^{\RV{X}_i}$ for $i>m$
     \item There is an unknown \emph{response} $\RV{H}$ taking values in $\Delta(Y)^X$ shared by all pairs $(\RV{X}_i,\RV{Y}_i)$, $i\in [m+n]$ that maps an individual's body mass index to their risk of death in the followup period; that is, $\prob{P}_C^{\RV{Y}_i|\RV{D}_i\RV{H}}=\prob{P}_C^{\RV{Y}_j|\RV{D}_j\RV{H}}=\RV{H}$ for all $i,j\in [m+n]$
@@ -47,7 +47,7 @@ Given the previously mentioned sequences $\RV{D}$ and $\RV{Y}$, the decision mak
     \prob{P}_\alpha^{\RV{Y}|\RV{D}} &= \prob{P}_\alpha^{\RV{Y}_\rho|\RV{D}_\rho}
 \end{align}
 
-This symmetry is conceptually very similar to exchangeability, and as we will show that it implies that the $(\RV{D}_i,\RV{Y}_i)$ share conditionally independent and identical responses. However, the converse is not true.
+This symmetry is conceptually very similar to exchangeability, and as we will show that it implies that the $(\RV{D}_i,\RV{Y}_i)$ share conditionally independent and identical responses. However, the converse is not true, as Example \ref{ex:no_swapping} shows.
 
 \begin{example}\label{ex:no_swapping}
 Suppose there is a machine with two arms $D=\{0,1\}$, one of which always pays out \$100 $50\%$ of the time and nothing otherwise, and the other that pays out nothing. A decision maker (DM) doesn't know which is which, but DM watches a sequence of people operate the machine. The first person in the sequence was told yesterday exactly which arm is good, and most likely remembers. The second one has no idea which arm is good, and does not observe the first person's choice. The DM is sure that they all want the money, so the first person will pull the good arm $1-\epsilon$ of the time, while the second person will pull the good arm $50\%$ of the time. The hypotheses $\RV{H}$ are ``0 is good'' and ``1 is good'' (which we'll just refer to as $\{0,1\}$), and the DM assigns 50\% probability to each initially. Then
@@ -67,7 +67,7 @@ while
 Even though $(\RV{D}_1,\RV{Y}_1)$ and $(\RV{D}_2,\RV{Y}_2)$ have a shared unknown response, swapping these pairs leads to a different model. What's going on here is that $\RV{D}_1$ and $\RV{D}_2$ are offering the DM different evidence about which response $\RV{H}$ is the true one. If the DM could observe a long enough sequence of pairs then the evidence imparted by the inputs on their own would be screened off, but if the DM is only considering the observation of a single pair then they weigh this evidence heavily in their assessment of the probability of different values of $\RV{H}$.
 \end{example}
 
-Example \ref{ex:no_swapping} motivates the weaker symmetry we call \emph{exchange commutativity}. A a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is exchange commutative if there is some variable $\RV{W}$ such that the conditional $\prob{P}_\alpha^{\RV{Y}|\RV{WD}}$ is symmetric to paired swaps of $\RV{Y}$ and $\RV{D}$.
+Example \ref{ex:no_swapping} motivates the weaker symmetry we call \emph{exchange commutativity}. The key difference is that exchange commutativity allows for the permutability of pairs after conditioning on some arbitrary variable $\RV{W}$. A sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is exchange commutative if there is some variable $\RV{W}$ such that the conditional $\prob{P}_\alpha^{\RV{Y}|\RV{WD}}$ is symmetric to paired swaps of $\RV{Y}$ and $\RV{D}$.
 
 \begin{definition}[Exchange commutativity]\label{def:caus_exch}
 Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ along with some $\RV{W}:\Omega\to W$, we say $(\prob{P}_C,\RV{D},\RV{Y})$ \emph{commutes with exchange} over $\RV{W}$ if for all finite permutations $\rho:\mathbb{N}\to\mathbb{N}$ and all $\alpha\in C$
@@ -101,13 +101,15 @@ Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ and some $\RV
 Appendix \ref{sec:equal_condits}
 \end{proof}
 
-Appendix \ref{sec:io_contract_proof} sets out two additional properties of these symmetries. Example \ref{ex:no_implication} shows that neither locality nor exchange commutativity is implied by the other, and Example \ref{ex:interference_w_locality} shows that locality by itself does not rule out everything that we might intuitively describe as ``interference'' between pairs.
+Appendix \ref{app:examples_symmetries} sets out two additional properties of these symmetries. Example \ref{ex:no_implication} shows that neither locality nor exchange commutativity is implied by the other, and Example \ref{ex:interference_w_locality} shows that locality by itself does not rule out everything that we might intuitively describe as ``interference'' between pairs.
 
 \subsection[Representation]{Representation of IO contractible models}\label{sec:rep_theorem}
 
 In this section, we state Theorem \ref{th:ciid_rep_kernel}, which shows that a sequential input output model $(\prob{P}_\cdot,\RV{D},\RV{Y})$ features pairs $(\RV{D}_i,\RV{Y}_i)$ related by conditionally independent and identical responses if and only if it is IO contractible over some variable $\RV{W}$.
 
 The proof of the theorem is involved, and can be found in its entirety Appendix \ref{app:representation_proof}. Here we just introduce enough to explain the key terms in the theorem statement. 
+
+\subsection{Background}\label{sec:rep_theorem_background}
 
 \begin{definition}[Input count variable]\label{def:count_of_inputs}
 Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ with countable $D$, $\#_{j}^k$ is the variable
@@ -187,7 +189,7 @@ Only if: We define a random invertible function $\RV{R}:\Omega\times \mathbb{N}\
 
 If: We construct a conditional probability according to Definition \ref{def:tab_cd} and verify that it satisfies IO contractibility.
 
-The full proof can be found in Appendix \ref{sec:io_contract_models}.
+The full proof can be found in Appendix \ref{app:representation_proof}. Note that the proof uses string diagram notation explained in Appendix \ref{ssec:mken_diagrams}.
 \end{proof}
 
 Because the distribution $\prob{P}_\alpha^{\RV{Y}^D|\RV{W}}$ from Lemma \ref{th:table_rep_kernel} is row-exchangeable, the limit in the definition of the directing random conditional $\RV{H}$ exists almost surely (see Lemma \ref{lem:ciid_yd}).  In fact, we do not need the full sequence of pairs $(\RV{D},\RV{Y})$ to calculate $\RV{H}$; any subsequence $A\subset\mathbb{N}$ that satisfies the condition that $\RV{D}_A$ is infinitely supported over $\RV{W}$ is sufficient.
@@ -199,10 +201,12 @@ Suppose a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is given wi
 \begin{proof}
 The strategy we pursue is to show that an arbitrary subsequence of $(\RV{D}_i,\RV{Y}_i)$ pairs induces a random contraction of the rows of $\RV{Y}^D$. Then we show that the contracted version of $\RV{Y}^D$ has the same distribution as the original, and consequently the normalised partial sums converge to the same limit.
 
-The proof is in Appendix \ref{sec:io_contract_models}.
+The proof is in Appendix \ref{app:representation_proof}.
 \end{proof}
 
 We are now ready to state the main result, Theorem \ref{th:ciid_rep_kernel}. Assuming a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ (Definition \ref{def:seq_io}) with inputs $\RV{D}$ infinitely supported (Definition \ref{def:infinite_support}) over some random variable $\RV{W}$, $(\prob{P}_C,\RV{D},\RV{Y})$ is IO contractible over the same $\RV{W}$ if and only if the pairs $(\RV{D}_i, \RV{Y}_i)$ share conditionally independent and identical responses (Definition \ref{def:cii_rf}), given by the directing random conditional $\RV{H}$ (Definition \ref{def:dir_rand_cond}) and $(\prob{P}_C,\RV{D},\RV{Y})$ is weakly data-independent.
+
+\subsection{Statement of the representation theorem}\label{sec:reptheorem_statement}
 
 \begin{theorem}[Representation of IO contractible models]\label{th:ciid_rep_kernel}
 Suppose a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ with sample space $(\Omega,\sigalg{F})$ is given with $D$ countable and $\RV{D}$ infinitely supported over $\RV{W}$. Then the following are equivalent:
@@ -224,10 +228,10 @@ We verify that the required conditional independences hold assuming (3).
 (2)$\implies$ (1):
 We show that, assuming (2), then $\prob{P}_\alpha^{\RV{Y}|\RV{WD}}$ is IO contractible over $\RV{W}$ for all $\alpha$.
 
-See Appendix \ref{sec:data_independent_proofs} for the full proof.
+See Appendix \ref{sec:io_contract_models} for the full proof. Note that the proof uses string diagram notation explained in Appendix \ref{ssec:mken_diagrams}.
 \end{proof}
 
-The arbitrary conditioning variable $\RV{W}$ presents some obstacles to interpreting Theorem \ref{th:ciid_rep_kernel}; we are not merely looking for IO contractibility, but IO contractibility after conditioning on some $\RV{W}$. To help us understand what is going on, we observe that without loss of generality we can consider the conditioning variable to be the directing random conditional $\RV{H}$.
+Whenever we have an input-output model with conditionally independent and identical responses given some arbitrary $\RV{W}$, then we also have conditionally independent and identical responses given the directing random conditional $\RV{H}$.
 
 \begin{corollary}\label{lem:ci_drc}
 If a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ has independent and identical responses conditional on some variable $\RV{W}$ and $\RV{D}$ has infinite support over the same $\RV{W}$, then letting $\RV{H}$ be the directing random conditional with respect to inputs $\RV{D}$ and outputs $\RV{Y}$, it follows that for for all $i$, $\RV{Y}_i\CI^e_{\prob{P}_C} \RV{W}|(\RV{D}_i,\RV{H},\text{id}_C)$ and for all $\alpha, i, j$, $\prob{P}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{H}}=\prob{P}_\alpha^{\RV{Y}_j|\RV{D}_j\RV{H}}$.
@@ -251,7 +255,7 @@ If in addition each $\prob{P}_\alpha^{\RV{YD}}$ is dominated by some exchangeabl
 See Appendix \ref{sec:data_independent_proofs}.
 \end{proof}
 
-\section[Does IO contractibility help?]{Does IO contractibility help us understand identification?}\label{sec:symmetries_discussion}
+\subsection[Does IO contractibility help?]{Does IO contractibility help us understand identification?}\label{sec:symmetries_discussion}
 
 One of the key contributions of De Finetti's representation theorem was to provide an alternative justification for the common modelling assumption that a sequence of variables were all distributed according to a shared but unknown ``true distribution''. De Finetti regarded the notion of an ``unknown true distribution'' as nonsensical, and through his representation theorem suggested that we could instead justify this structure by arguing that the experiment that produced the sequence of variables was, from the point of view of the analyst seeking to make predictions, invariant to reindexing the variables in the sequence.
 
