@@ -1,13 +1,10 @@
 %!TEX root = main.tex
 
 
-\section{Appendix}
+\section{String Diagrams}\label{ssec:mken_diagrams}
 
 
 We use a string diagram notation to represent probabilistic functions. This is a notation created for reasoning about abstract Markov categories, and is somewhat different to existing graphical languages. The main difference is that in our notation wires represent variables and boxes (which are like nodes in directed acyclic graphs) represent probabilistic functions. Standard directed acyclic graphs annotate nodes with variable names and represent probabilistic functions implicitly. The advantage of explicitly representing probabilistic functions is that we can write equations involving graphics. This is introduced in Section \ref{ssec:mken_diagrams}.
-
-
-\section{String Diagrams}\label{ssec:mken_diagrams}
 
 We make use of string diagram notation for probabilistic reasoning. Graphical models are often employed in causal reasoning, and string diagrams are a kind of graphical notation for representing Markov kernels. The notation comes from the study of Markov categories, which are abstract categories that represent models of the flow of information. For our purposes, we don't use abstract Markov categories but instead focus on the concrete category of Markov kernels on standard measurable sets.
 
@@ -932,11 +929,42 @@ By construction
 is exchangeable, and by domination $\prob{Q}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{Y}_{\{i^{\complement}\}},\RV{D}_{\{i^{\complement}\}}}\overset{\prob{P}}{\cong}\prob{Q}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{Y}_{\{i^{\complement}\}},\RV{D}_{\{i^{\complement}\}}}$. The result follows from Lemma \ref{lem:dom_cond}.
 \end{proof}
 
+\begin{theorem}[Copy map commutes for deterministic kernels \citep{fong_causal_2013}]\label{th:fong_det_kerns}
+For $\kernel{K}:X\kto Y$
+\begin{align}
+    \tikzfig{deterministic_copymap_commute}
+\end{align}
+holds iff $\kernel{K}$ is deterministic.
+\end{theorem}
+
+\begin{theorem}\label{lem:exch_prod_ciid}
+Given $(\prob{P}_cdot,\RV{Y},\RV{D})$, if $\prob{P}_\alpha^{\RV{Y}|\RV{D}}$ is exchange commutative for each $\alpha$, and for each $\alpha$ $\prob{P}_\alpha^{\RV{D}}$ is absolutely continuous with respect to some exchangeable distribution $\prob{Q}_\alpha^{\RV{D}}$ in $\Delta(D^{\mathbb{N}})$ with directing random measure $\RV{F}$ and $\RV{D}$ is infinitely supported over $\RV{F}$ with respect to $\prob{Q}_\alpha$, then $(\prob{P}_cdot,\RV{Y},\RV{D})$.
+\end{theorem}
+
+\begin{proof}
+For each $\alpha$, extend $\prob{Q}_\alpha^{\RV{D}}$ to a distribution on $(\RV{D},\RV{Y})$ by asserting that $\prob{P}_\alpha^{\RV{Y}|\RV{D}}\overset{\prob{Q}_\alpha}{\cong} \prob{Q}_\alpha^{\RV{Y}|\RV{D}}$. Because $\prob{Q}_\alpha^{\RV{D}}$ dominates $\prob{P}_\alpha^{\RV{D}}$, we have in fact $\prob{Q}_\alpha^{\RV{Y}|\RV{D}}\overset{\prob{P}}{\cong}\prob{P}_\alpha^{\RV{Y}|\RV{D}}$
+
+We will show $\prob{Q}_\alpha^{\RV{DY}}$ is unchanged by finite permutations of $(\RV{D}_i,\RV{Y}_i)$ pairs. For some finite permutation $\rho:\mathbb{N}\to\mathbb{N}$:
+\begin{align}
+    \prob{Q}_\alpha^{\RV{D}_\rho\RV{Y}_\rho} &= \prob{Q}_\alpha^{\RV{D}_\rho\RV{Y}_\rho} (\text{Swap}_{\rho,D^{\mathbb{N}}}\otimes \text{Swap}_{\rho,Y^{\mathbb{N}}})\\
+    &= \prob{Q}_\alpha^{\RV{D}}\odot \prob{Q}_\alpha^{\RV{Y}|\RV{D}}(\text{Swap}_{\rho,D^{\mathbb{N}}}\otimes \text{Swap}_{\rho,Y^{\mathbb{N}}})\\
+    &= \tikzfig{exch_dom_swap1}\\
+    &= \tikzfig{exch_dom_swap2}\\
+    &= \tikzfig{exch_dom_swap3}\label{eqApp:exch_comep}\\
+    &= \tikzfig{exch_dom_swap4}\label{eqApp:det_comep}\\
+    &= \tikzfig{exch_dom_swap5}\label{eqApp:exchep}\\
+    &= \prob{Q}_\alpha^{\RV{D}\RV{Y}}
+\end{align}
+Where line \eqref{eqApp:exch_comep} follows from exchange commutativity, \eqref{eqApp:det_comep} follows from Theorem \ref{th:fong_det_kerns} and the fact that the swap map is deterministic and line \eqref{eqApp:exchep} comes from the exchangeability of $\prob{Q}_\alpha^{\RV{D}}$.
+
+Because $\prob{P}_\alpha^{\RV{D}}$ is dominated by $\prob{Q}_\alpha^{\RV{D}}$ by assumption, we have $\prob{P}_\alpha^{\RV{Y}|\RV{D}} \overset{\prob{P}}{\cong} \prob{Q}_\alpha^{\RV{Y}|\RV{D}}$, which implies $\prob{Q}_\alpha^{\RV{Y}_i|\RV{D}\RV{Y}_{\{i\}^{\complement}}}\overset{\prob{P}}{\cong} \prob{Q}_\alpha^{\RV{Y}_i|\RV{D}\RV{Y}_{\{i\}^{\complement}}}$ and from Lemma \ref{lem:dom_cond} we therefore have $\prob{P}_\alpha^{\RV{Y}|\RV{HD}}$ IO contractible over $\RV{H}$, and from Theorem \ref{th:ciid_rep_kernel} we have $\RV{Y}\CI^e_{\prob{P}_C} \text{id}_C | (\RV{D},\RV{H})$ and so $\prob{P}_\alpha^{\RV{Y}|\RV{HD}}$ IO contractible over $\RV{H}$ also.
+\end{proof}
+
 \section{Precedented options}\label{sec:proof_precedent}
 
 This is the proof of Theorem \ref{th:latent_to_observable} in Section \ref{sec:precedent}.
 
-\begin{repdefinition}[Diverse precedent]
+\begin{repdefinition}{def:diverse_precedent}
 Given a see-do model $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ with $E,X,Y$ and $Z$ all discrete sets, suppose among the observations $i\in \mathbb{N}$ the pairs $(\RV{Z}_i,(\RV{E}_i,\RV{X}_i,\RV{Y}_i))$ share conditionally independent and identical responses and, for all observations and consequences $i\in \mathbb{N}\cup\{c\}$, pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ also share conditionally independent and identical responses.
 
 Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{Z}_{\mathbb{N}},(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}})$. 
@@ -949,7 +977,7 @@ Where $U_{\Delta(E)}$ is the uniform measure on the $|E-1|$ simplex of discrete 
 \end{repdefinition}
 
 \begin{reptheorem}{th:latent_to_observable}
-Given a see-do model $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ with $E,X,Y$ and $Z$ all discrete sets, suppose among the observations $i\in \mathbb{N}$ the pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i,\RV{Z}_i))$ share conditionally independent and identical responses and, for all observations and consequences $i\in \mathbb{N}\cup\{c\}$, pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ also share conditionally independent and identical responses. Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{Z}_{\mathbb{N}},(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}})$.
+Given a see-do model $(\prob{P}_\cdot,(\RV{E}_i,\RV{X}_i,\RV{Y}_i,\RV{Z}_i)_{i\in\mathbb{N}\cup\{c\}})$ with $E,X,Y$ and $Z$ all discrete sets, suppose among the observations $i\in \mathbb{N}$ the pairs $(\RV{Z}_i,(\RV{E}_i,\RV{X}_i,\RV{Y}_i))$ share conditionally independent and identical responses and, for all observations and consequences $i\in \mathbb{N}\cup\{c\}$, pairs $(\RV{E}_i,(\RV{X}_i,\RV{Y}_i))$ also share conditionally independent and identical responses. Take $\RV{G}$ to be the directing random conditional of $(\prob{P}_\cdot,\RV{Z}_{\mathbb{N}},(\RV{E}_i,\RV{X}_i,\RV{Y}_i)_{i\in \mathbb{N}})$.
 
 Let $I\subset \Delta(Y)^{XZ}$ be the event $\RV{G}^Y_{Xz}=\RV{G}^Y_{Xz'}$ for all $z,z'\in Z$; i.e. the event that $\RV{Y}_i$ is independent of $\RV{Z}_i$ conditional on $\RV{X}_i$ and $\RV{G}$. Define $\prob{Q}_\alpha\in \Delta(\Omega)$ to be the probability measure such that, for all $A\in \sigalg{F}$
 \begin{align}
@@ -962,12 +990,12 @@ If the options $C$ have diverse precedent with respect to $(\prob{Q}_\cdot,(\RV{
 
 \begin{proof}
 
-For abitrary $e$, $z'$, fix $\RV{G}^E_{z'}$ to some arbitrary $g^E_{z'}$. Note that $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\text{id}_C)$ implies $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\RV{G}^e_{z'},\text{id}_C)$. This in turn implies, for all $\alpha$ and $\prob{Q}_\alpha$-almost all $e,z,x,y$
+For abitrary $z'$ along with $g^E_{z'}$ and $g^{XY}_{EZ}$ satisfying the assumption of diverse precedent, condition on $\RV{G}^E_{z'} = g^E_{z'}$ and $\RV{G}^{XY}_{EZ}=g^{XY}_{EZ}$. Note that $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\text{id}_C)$ implies $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\RV{G}^e_{z'},\text{id}_C)$. This in turn implies, for all $\alpha$ and $\prob{Q}_\alpha$-almost all $e,z,x,y$
 \begin{align}
     \sum_{e\in E} g^y_{exz}\frac{g^x_{ez}\RV{G}^e_z}{\sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z}&\overset{\prob{P}_C}{\cong} \sum_{e\in E} g^y_{exz'}\frac{g^x_{ez'}g^e_{z'}}{\sum_{e'\in E}g^x_{e'z'}g^{e'}_{z'}}\label{eqApp:polynomial}
 \end{align}
 
-Note that both $g^y_{exz}$ and $g^x_{ez}$ are fixed by the choice of $g^{XY}_{EZ}$.
+Note that both $g^y_{exz}$ and $g^x_{ez}$ are fixed by $g^{XY}_{EZ}$.
 
 For fixed $g^y_{exz}$, $g^x_{ez}$ and $\RV{G}^e_{z'}$, Eq. \eqref{eqApp:polynomial} defines a polynomial constraint on $\RV{G}^e_{z}$. We will show that, unless $g^y_{exz}= g^y_{e'xz}$ for all $e,e'$ and $z$, that this constraint is nontrivial for some $z$. Consequently, the set of solutions subject to the restriction $g^y_{exz}\neq g^y_{e'xz}$ has Lebesgue measure 0.
 
@@ -993,15 +1021,15 @@ For the second inequality, the right hand numerator grows and the denominator sh
 \begin{align}
     \frac{g^x_{ez}\RV{G}^{\prime e}_z}{\sum_{e'\in E}g^x_{e'z}\RV{G}^{\prime e'}_z} &= \frac{0.5 g^x_{ez}\RV{G}^{e}_z}{\sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z - 0.5 \RV{G}^{e}_z (g^x_{ez} - g^x_{e^< z})}
 \end{align}
-$\RV{G}^e_z g^x_{ez}$ less than $1$ (an almost sure event) implies that the right hand denominator is greater than $0.5 \sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z$, and hence the right hand side is less than $\frac{g^x_{ez}\RV{G}^e_z}{\sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z}$.
+$\RV{G}^e_z g^x_{ez}<1$ (an almost sure event) implies that the right hand denominator is greater than $0.5 \sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z$, and hence the right hand side is less than $\frac{g^x_{ez}\RV{G}^e_z}{\sum_{e'\in E}g^x_{e'z}\RV{G}^{e'}_z}$.
 
 Thus the conclusion in Eq. \eqref{eqApp:inequality} follows for the same reasons. Considering $g^x_{ez'}< g^x_{e^<z'}$, analogous reasoning implies Eq. \eqref{eqApp:inequality} once again.
 
-Thus, unless $g^y_{exz}=g^y_{e'xz}$ for all $e,e'$ and $z$, Eq. \eqref{eqApp:polynomial} implies a nontrivial constraint on $\RV{G}^t_{z}$ for some $z$. Thus for some $e,e'$,$z$, $x$ and $y$ the set of solutions $S:=\{g^E_{z}|\RV{G}^E_z=g^E_z\text{ satisfies Eq. \eqref{eqApp:polynomial}}\land g^y_{exz}\neq g^y_{e'xz}\}$ has Lebesgue measure 0 in the set $[0,1]^{E}$ \citep{okamoto_distinctness_1973}, and so by domination
+Thus, unless $g^y_{exz}=g^y_{e'xz}$ for all $e,e'$ and $z$, Eq. \eqref{eqApp:polynomial} implies a nontrivial constraint on $\RV{G}^e_{z}$ for some $z$. Thus for some $e,e'$,$z$, $x$ and $y$ the set of solutions $S:=\{g^E_{z}|\RV{G}^E_z=g^E_z\text{ satisfies Eq. \eqref{eqApp:polynomial}}\land g^y_{exz}\neq g^y_{e'xz}\}$ has Lebesgue measure 0 in the set $[0,1]^{E}$ \citep{okamoto_distinctness_1973}, and so by domination
 \begin{align}
-    \prob{Q}_{\alpha}^{\RV{G}^E_{z}|\RV{G}^E_{z'}}(S|g^E_{z'}) = 0
+    \prob{Q}_{\alpha}^{\RV{G}^E_{z}|\RV{G}^E_{z'}\RV{G}^{XY}_{EZ}}(S|g^E_{z'},g^{XY}_{EZ}) = 0
 \end{align}
-On the other hand, by assumption, the set $T:=\{g^E_{z}|\RV{G}^E_z=g^E_z\text{ satisfies Eq. \eqref{eqApp:polynomial}}\land g^y_{exz}\neq g^y_{e'xz}\}$ has measure 1. Thus we conclude that $g^y_{exz}=g^y_{e'xz}$ with probability 1. That is, $\RV{Y}_i\CI^e_{\prob{Q}} \RV{E}_i|\RV{Z}_i,\RV{X}_i,\text{id}_C$. By contraction with $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\text{id}_C)$, we have $\RV{Y}_i\CI^e_{\prob{Q}} (\RV{Z}_i,\RV{E}_i)|(\RV{X}_i,\text{id}_C)$. 
+On the other hand, by assumption, the set $T:=\{g^E_{z}|\RV{G}^E_z=g^E_z\text{ satisfies Eq. \eqref{eqApp:polynomial}}\}$ has measure 1. Thus we conclude that with the exception of a $\prob{Q}_\alpha$ measure 0 set, $g^y_{exz}=g^y_{e'xz}$. That is, $\RV{Y}_i\CI^e_{\prob{Q}} \RV{E}_i|\RV{Z}_i,\RV{X}_i,\text{id}_C$. By contraction with $\RV{Y}_i\CI^e_{\prob{Q}} \RV{Z}_i|(\RV{X}_i,\text{id}_C)$, we have $\RV{Y}_i\CI^e_{\prob{Q}} (\RV{Z}_i,\RV{E}_i)|(\RV{X}_i,\text{id}_C)$. 
 
 By IO contractibility, we have $\prob{Q}_\alpha^{\RV{Y}_i|\RV{E}_i\RV{X}_i\RV{G}^{Y}_{EX}}=\prob{Q}_\alpha^{\RV{Y}_i|\RV{E}_i\RV{X}_i\RV{H}}$. But then, by independence, $\prob{Q}_\alpha^{\RV{Y}_i|\RV{X}_i\RV{G}^{Y}_{EX}}=\prob{Q}_\alpha^{\RV{Y}_i|\RV{X}_i\RV{H}}$.
 \end{proof}

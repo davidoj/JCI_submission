@@ -192,11 +192,32 @@ Given a decision model $(\prob{P}_\cdot, (\Omega,\sigalg{F}), (C,\sigalg{C}))$, 
 \end{align}
 \end{definition}
 
-Extended conditional independence as introduced by \citet{constantinou_extended_2017} is defined using ``nonstochastic variables'' on the option set C. For our purposes, it is sufficient to use only the special nonstochastic variable $\mathrm{id}_C:C\to C$.
+Extended conditional independence as introduced by \citet{constantinou_extended_2017} is defined using pairs of  ``complementary nonstochastic variables'' on the option set $C$. 
 
-Our two notions are \emph{global conditional independence} and \emph{uniform conditional independence}. The former can be understood as meaning ``conditional independence for every $\alpha\in C$'', while the latter means ``conditional independence for every $\alpha\in C$ and moreover not dependent on $\alpha$''.
+\begin{definition}[Nonstochastic variable]\label{def:nonstoc_var}
+Given a decision model $(\prob{P}_\cdot,(\Omega,\sigalg{F}),(C,\sigalg{C}))$ and a measurable set $(X,\sigalg{X})$, a nonstochastic variable is a measurable function $\phi:C\to X$.
+\end{definition}
 
-\begin{definition}[Global conditionally independence]\label{def:eci_orig}
+\begin{definition}[Complementary nonstochastic variables]\label{def:comp_var}
+A pair of nonstochastic variables $\phi$ and $\xi$ are complementary if the pair $(\phi,\xi)$ is invertible.
+\end{definition}
+
+Unlike \citet{constantinou_extended_2017}, we limit ourselves to a definition of extended conditional independence where regular uniform conditional probabilities exist. Our definition is otherwise identical.
+
+\begin{definition}[Extended conditional independence]\label{def:eci_orig}
+Given a probability set $\prob{P}_C$, variables $\RV{X}$, $\RV{Y}$ and $\RV{Z}$ and complementary nonstochastic variables $\phi$ and $\xi$, the extended conditional independence $\RV{Y}\CI^e_{\prob{P}_\cdot} \RV{X} \phi|\RV{Z} \xi$ holds if for each $a\in \xi(C)$, $\alpha,\alpha'\in \xi^{-1}(a)$,
+\begin{align}
+    \prob{P}_{\alpha}^{\RV{Y}|\RV{XZ}} &\overset{\prob{P}_{\cdot}}{\cong} \prob{P}_{\alpha'}^{\RV{Y}|\RV{XZ}}
+\end{align}
+and for all $\alpha\in C$
+\begin{align}
+    \prob{P}_{\alpha}^{\RV{Y}|\RV{XZ}}(A|x,z) &\overset{\prob{P}_{\alpha}}{\cong} \prob{P}_{\alpha}^{\RV{Y}|\RV{Z}}(A|z)&\forall A\in \sigalg{Y},(x,z)\in X\times Z\label{eq:eci}
+\end{align}
+\end{definition}
+
+In fact, in this work we only ever consider the complimentary pair $(\mathrm{id}_C,*)$ where $*$ is the trivial variable $\cdot \mapsto *$., in which case extended conditional independence breaks down into two special cases: \emph{global conditional independence} and \emph{uniform conditional independence}. The former can be understood as ``conditional independence for every $\alpha\in C$'', while the latter means ``conditional independence for every $\alpha\in C$, and moreover conditionally independent of $\mathrm{id}_C$''.
+
+\begin{definition}[Global conditional independence]\label{def:eci_orig}
 Given a decision model $(\prob{P}_\cdot, (\Omega,\sigalg{F}), (C,\sigalg{C}))$ and variables $\RV{X}$, $\RV{Y}$ and $\RV{Z}$, $\RV{Y}$ is globally independent of $\RV{X}$ given $\RV{Z}$, written $\RV{Y}\CI^e_{\prob{P}_\cdot} \RV{X} |(\RV{Z}, \mathrm{id}_C)$ if for each $\alpha\in C$
 \begin{align}
     \prob{P}_{\alpha}^{\RV{Y}|\RV{XZ}}(A|x,z) &\overset{\prob{P}_{\alpha}^{\RV{XZ}}}{\cong} \prob{P}_{\alpha}^{\RV{Y}|\RV{Z}}(A|z)&\forall A\in \sigalg{Y},(x,z)\in X\times Z\label{eq:eci}
@@ -210,7 +231,7 @@ Given a decision model $(\prob{P}_\cdot, (\Omega,\sigalg{F}), (C,\sigalg{C}))$ a
 \end{align}
 \end{definition}
 
-For countable sets $C$, as shown by \citet{constantinou_extended_2017}, we can reason with collections of extended conditional independence statements as if they were regular conditional independence statements. In the following rules, $\phi$ and $\xi$ refer to complementary variables on the set $C$ (see \citet{constantinou_extended_2017} for details), but for our purposes we only consider the cases where either $\phi=\mathrm{id}_C$ and $\xi=*$ or $\phi=*$ and $\xi=\mathrm{id}_C$, where $*$ is the trivial variable $\cdot \mapsto *$. In the rest of this text, we will omit the trivial variable from extended conditional independence statements.
+For countable sets $C$ we can reason with collections of extended conditional independence statements as if they were regular conditional independence statements. In the following rules, $\phi$ and $\xi$ refer to complementary variables on the set $C$ (see \citet{constantinou_extended_2017} for details), but for our purposes we only consider the cases where either $\phi=\mathrm{id}_C$ and $\xi=*$ or $\phi=*$ and $\xi=\mathrm{id}_C$. In the rest of this text, we will omit the trivial variable from extended conditional independence statements.
 
 \begin{enumerate}
     \item Symmetry: $\RV{X}\CI_{\prob{P}_{\cdot}}^e (\RV{Y}, \phi)|(\RV{Z}, \xi)$ iff $\RV{Y}\CI_{\prob{P}_{\cdot}}^e (\RV{X}, \phi)|(\RV{Z},\xi)$

@@ -1,42 +1,44 @@
 %!TEX root = main.tex
 
-\section[Shared responses]{When observations and consequences share responses}\label{sec:evaluating_decisions}
+\section[Shared responses]{Inferring consequences when observations and consequences share responses}\label{sec:evaluating_decisions}
 
-Returning to the example of body mass index and mortality raised in the introduction, we will present an implausible but relatively simple account of how a decision maker might leverage their observations to draw conclusions about how actions that affect body mass index can affect mortality. The key assumption they make is to suppose that whether or not an individual dies during the study period is related by a ``fixed but unknown stochastic function'' to their body mass index at the start of the study period -- and this is true for individuals who were part of the observation set and individuals who may be influenced by the decision maker alike. Suppose our decision maker has a decision model $(\prob{P}_{\cdot}, (C,\sigalg{C}), (\Omega,\sigalg{F}))$ and a sequences of random variable pairs $(\RV{X}_i,\RV{Y}_i)_{i\in [m+n]}$ where $[m+n]$ is the set $\{1,2,...,m+n\}$ where $\RV{X}_i$ is an individual's body mass index and $\RV{Y}_i$ is a variable taking values in $\{0,1\}$ indicating whether or not they died during the follow-up period. The first $m$ pairs in the sequence are observations unaffected by the decision maker and the next $n$ pairs are affected by their choice. The decision maker wants to learn something from the uncontrolled pairs of observations $(\RV{X}_{[m]},\RV{Y}_{[m]})$ to help make a decision that will promote good outcomes among the controlled pairs $(\RV{X}_{[m+1,n]},\RV{Y}_{[m+1,n]})$. In order to do this, the decision maker might assume:
+Returning to the example of body mass index and mortality raised in the introduction, we will present an implausible but relatively simple account of how a decision maker might leverage observations to draw conclusions about how their options that are known to affect body mass index can affect mortality. In particular, they may assume that whether or not an individual dies during the study period is related by a ``fixed but unknown stochastic function'' to their body mass index at the start of the study period -- and this is true for individuals who were part of the observation set and individuals who may be influenced by the decision maker alike. 
+
+In more detail, suppose our decision maker has a decision model $(\prob{P}_{\cdot}, (C,\sigalg{C}), (\Omega,\sigalg{F}))$ and a sequences of random variable pairs $(\RV{X}_i,\RV{Y}_i)_{i\in [m+n]}$ where $[m+n]$ is the set $\{1,2,...,m+n\}$ where $\RV{X}_i$ is an individual's body mass index and $\RV{Y}_i$ is a variable taking values in $\{0,1\}$ indicating whether or not they died during the follow-up period. The first $m$ pairs in the sequence are observations unaffected by the decision maker and the next $n$ pairs are affected by their choice. The decision maker wants to learn something from the uncontrolled pairs of observations $(\RV{X}_{[m]},\RV{Y}_{[m]})$ to help make a decision that will promote good outcomes among the controlled pairs $(\RV{X}_{[m+1,n]},\RV{Y}_{[m+1,n]})$. In order to do this, the decision maker might assume:
 \begin{itemize}
     \item They already know how their choices determine the marginal distribution $\prob{P}_\alpha^{\RV{X}_i}$ for $i>m$
     \item There is an unknown \emph{response} $\RV{H}$ taking values in $\Delta(Y)^X$ shared by all pairs $(\RV{X}_i,\RV{Y}_i)$, $i\in [m+n]$ that maps an individual's body mass index to their risk of death in the followup period; that is, $\prob{P}_C^{\RV{Y}_i|\RV{D}_i\RV{H}}=\prob{P}_C^{\RV{Y}_j|\RV{D}_j\RV{H}}=\RV{H}$ for all $i,j\in [m+n]$
     \item For all $i$, whether or not an individual dies $\RV{Y}_i$ is independent of $(\RV{X}_j,\RV{Y}_j)_{j\neq i}$ conditional on $\RV{X}_i$ and $\RV{H}$; for all $i$, $\RV{Y}_i\CI^e_{\prob{P}_\cdot} (\mathrm{id}_C,\RV{X}_{[m+n]\setminus \{i\}},\RV{Y}_{[m+n]\setminus \{i\}})|(\RV{X}_i,\RV{H})$
 \end{itemize}
 
-In this case, the decision maker can use the first $m$ pairs of observations $(x_{[m]},y_{[m]})$ to estimate the distribution $\prob{P}_C^{\RV{H}|\RV{D}_{[m]}\RV{Y}_{[m]}}$ and thereby estimate the effects of their options on $\RV{Y}_i$, $i>m$
+In this case, the decision maker can use the relationship observed in the first $m$ pairs of observations $(x_{[m]},y_{[m]})$ to compute a posterior distribution $\prob{P}_C^{\RV{H}|\RV{D}_{[m]}\RV{Y}_{[m]}}$ and thereby estimate the effects of their options on $\RV{Y}_i$, $i>m$
 \begin{align}
     \prob{P}_\alpha^{\RV{Y}_i} (A) &= \int_{\Delta(Y)^X}\int_X \prob{P}_C^{\RV{Y}|\RV{XH}}(A|x,h) \prob{P}_\alpha^{\RV{X}_i}(\mathrm{d}x)\prob{P}_C^{\RV{H}|\RV{X}_{[m]}\RV{Y}_{[m]}}(\mathrm{d}h|x_{[m]},y_{[m]})\\
     &= \int_{\Delta(Y)^X}\int_X h(A|x) \prob{P}_\alpha^{\RV{X}_i}(\mathrm{d}x)\prob{P}_C^{\RV{H}|\RV{X}_{[m]}\RV{Y}_{[m]}}(\mathrm{d}h|x_{[m]},y_{[m]})
 \end{align}
 
-The key assumption is that the same response $\RV{H}$ is shared by both the observations $(\RV{X}_i,\RV{Y}_i)$, $i\in [m]$ and the consequences $(\RV{X}_j,\RV{Y}_j)$, $j>m$.
-
-A famous theorem of \citet{de_finetti_foresight_1992} shows that sequential probability models where each variable in the sequence shares an unknown distribution are equivalent to probability models of \emph{exchangeable} sequences. In this section, we introduce input-output contractibility (Definition \ref{def:ccontract}) as an analogue of exchangeability for sequences of pairs, and show that it is equivalent to the assumption discussed here of a shared but unknown response $\RV{H}$.
+Once again, the key assumption enabling this deduction is that the same response $\RV{H}$ is shared by both the observations $(\RV{X}_i,\RV{Y}_i)$, $i\in [m]$ and the consequences $(\RV{X}_j,\RV{Y}_j)$, $j>m$. However, one might ask: what exactly does it mean for observations and consequences to ``share a response''? A famous theorem of \citet{de_finetti_foresight_1992} shows that sequential probability models where each variable in the sequence shares an unknown distribution are equivalent to probability models of \emph{exchangeable} sequences. In this section, we introduce input-output contractibility (Definition \ref{def:ccontract}) as an analogue of exchangeability for sequences of pairs, and show that it is equivalent to the assumption discussed here of a shared but unknown response $\RV{H}$.
 
 \subsection[Response functions]{Conditionally independent and identical responses}\label{sec:response_functions}
 
-We formalise the general kind of model sketched above as a model of sequences of pairs of variables with \emph{conditionally independent and identical responses} (CIIRs). A sequence of pairs $(\RV{D}_i,\RV{Y}_i)_{i\in \mathbb{N}}$ share conditionally independent and identical responses if there is an unknown stochastic function $\RV{H}$ taking values in $\Delta(Y)^D$ -- i.e. in the set of maps from $D$ to probability distributions over $Y$ -- such that every output $\RV{Y}_i$ ``responds to'' $\RV{D}_i$ according to the same $\RV{H}$. While above we discussed an example where the decision maker has prior knowledge about how to control some of the inputs $\RV{D}_i$, this is a separate assumption and is not required by the assumption of CIIR pairs.
+We formalise the general kind of model sketched above as a model of sequences of variable pairs with \emph{conditionally independent and identical responses} (CIIRs). A sequence of pairs $(\RV{D}_i,\RV{Y}_i)_{i\in \mathbb{N}}$ share conditionally independent and identical responses if there is an unknown stochastic function $\RV{H}$ taking values in $\Delta(Y)^D$ -- in the set of maps from $D$ to probability distributions over $Y$ -- such that every output $\RV{Y}_i$ ``responds to'' $\RV{D}_i$ according to the same $\RV{H}$. While our example featured a decision maker who has prior knowledge about how to control some of the inputs $\RV{D}_i$, this is a separate assumption and is not required by the assumption of CIIR pairs.
 
-We define the following shorthand for a decision model incorporating a sequence of pairs.
+We define sequential input-output models as a shorthand for a decision model along with a sequence of pairs.
 
 \begin{definition}[Sequential input-output model]\label{def:seq_io}
 A decision model $(\prob{P}_{\cdot}, (C,\sigalg{C}), (\Omega,\sigalg{F}))$ and two sequences of variables $\RV{Y}:=(\RV{Y}_i)_{i\in \mathbb{N}}$ and $\RV{D}:=(\RV{D}_i)_{i\in\mathbb{N}}$ is a sequential input-output model, which we specify with the shorthand $(\prob{P}_\cdot,\RV{D},\RV{Y})$.
 \end{definition}
 
+The formal definition of CIIRs follows. In this work we consider the response $\RV{H}$ to be a random variable.
+
 \begin{definition}[Conditionally independent and identical responses]\label{def:cii_rf}
-Given a sequential input-output model $(\prob{P}_\cdot,\RV{D},\RV{Y})$, the $(\RV{D}_i,\RV{Y}_i)$ pairs are related by \emph{independent and identical responses conditional on} $\RV{H}$ if for all $i$, $\RV{Y}_i\CI^e_{\prob{P}_C} (\RV{D}_{[1,i)},\RV{Y}_{[1,i)})|(\RV{H},\text{id}_C)$ and $\prob{P}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{H}}=\prob{P}_\alpha^{\RV{Y}_j|\RV{D}_j\RV{H}}$ for all $i,j$.
+Given a sequential input-output model $(\prob{P}_\cdot,\RV{D},\RV{Y})$, the $(\RV{D}_i,\RV{Y}_i)$ pairs are related by \emph{independent and identical responses conditional on} $\RV{H}$ if for all $i$, $\RV{Y}_i\CI^e_{\prob{P}_C} (\RV{D}_{[1,i)},\RV{Y}_{[1,i)})|(\RV{D}_i,\RV{H},\text{id}_C)$ and $\prob{P}_\alpha^{\RV{Y}_i|\RV{D}_i\RV{H}}=\prob{P}_\alpha^{\RV{Y}_j|\RV{D}_j\RV{H}}$ for all $i,j$.
 \end{definition}
 
-In general, outputs $\RV{Y}_i$ are only required to be independent of \emph{previous} inputs and outputs, conditional on $\RV{H}$ and $\RV{D}_i$. If $\RV{D}_i$ is selected based on previous data, then in general there may be relationships between $\RV{D}_j$ and $\RV{Y}_i$ for $j>i$ even after conditioning on $\RV{D}_i$ and $\RV{H}$. However, for present purposes we make the additional simplifying assumption that inputs are \emph{weakly data-independent}, which means that conditional on $\RV{H}$ and past inputs $\RV{D}_{[1,i]}$, $\RV{Y}_i$ is also independent of all future inputs. Generalising our theory to data-dependent inputs is an open question.
+In general, the definition for conditionally independent and identical responses only requires that the outputs $\RV{Y}_i$ are independent of \emph{previous} inputs and outputs conditional on $\RV{H}$ and $\RV{D}_i$. If $\RV{D}_i$ is selected based on previous data, then in general there may be relationships between $\RV{D}_j$ and $\RV{Y}_i$ for $j>i$ even after conditioning on $\RV{D}_i$ and $\RV{H}$. However, for present purposes we make the additional simplifying assumption that inputs are \emph{weakly data-independent}, which means that conditional on $\RV{H}$ and past inputs $\RV{D}_{[1,i]}$, $\RV{Y}_i$ is also independent of all future inputs. Generalising our theory to data-dependent inputs is an open question.
 
 \begin{definition}[Weakly data-independent]\label{def:weak_di}
-A sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is weakly data-independent if $\RV{Y}_i\CI^e_{\prob{P}_C} \RV{D}_{(i,\infty]}|(\RV{H},\RV{D}_{[1,i]},\text{id}_C)$.
+A sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ with independent and identical responses conditional on $\RV{H}$ is weakly data-independent if $\RV{Y}_i\CI^e_{\prob{P}_C} \RV{D}_{\mathbb{N}\setminus\{i\}}|(\RV{D}_{i},\RV{H},\text{id}_C)$.
 \end{definition}
 
 \subsection[Conditional probability symmetries]{Symmetries of sequential conditional probabilities}\label{sec:ccontracibility}
@@ -47,10 +49,10 @@ Given the previously mentioned sequences $\RV{D}$ and $\RV{Y}$, the decision mak
     \prob{P}_\alpha^{\RV{Y}|\RV{D}} &= \prob{P}_\alpha^{\RV{Y}_\rho|\RV{D}_\rho}
 \end{align}
 
-This symmetry is conceptually very similar to exchangeability, and as we will show that it implies that the $(\RV{D}_i,\RV{Y}_i)$ share conditionally independent and identical responses. However, the converse is not true, as Example \ref{ex:no_swapping} shows.
+This symmetry is reminiscent of exchangeability, and in Theorem \ref{lem:exch_prod_ciid} we show that it implies that the $(\RV{D}_i,\RV{Y}_i)$ share conditionally independent and identical responses. However, the converse is not true, as Example \ref{ex:no_swapping} shows.
 
 \begin{example}\label{ex:no_swapping}
-Suppose there is a machine with two arms $D=\{0,1\}$, one of which always pays out \$100 $50\%$ of the time and nothing otherwise, and the other that pays out nothing. A decision maker (DM) doesn't know which is which, but DM watches a sequence of people operate the machine. The first person in the sequence was told yesterday exactly which arm is good, and most likely remembers. The second one has no idea which arm is good, and does not observe the first person's choice. The DM is sure that they all want the money, so the first person will pull the good arm $1-\epsilon$ of the time, while the second person will pull the good arm $50\%$ of the time. The hypotheses $\RV{H}$ are ``0 is good'' and ``1 is good'' (which we'll just refer to as $\{0,1\}$), and the DM assigns 50\% probability to each initially. Then
+Suppose there is a machine with two arms $D=\{0,1\}$, one of which always pays out \$100 $50\%$ of the time and nothing otherwise, and the other that pays out nothing. A decision maker (DM) doesn't know which is which, but DM watches a sequence of people operate the machine. The first person in the sequence was told yesterday exactly which arm is good, and most likely remembers. The second one has no idea which arm is good, and does not observe the first person's choice. The DM is sure that they all want the money, so the first person will pull the good arm $1-\epsilon$ of the time, while the second person will pull the good arm $50\%$ of the time. The response $\RV{H}$ takes values that can be summarised as ``0 is good'' and ``1 is good'' (which we'll just refer to as $\{0,1\}$), and the DM assigns 50\% probability to each initially. Then
 \begin{align}
     \prob{P}_C^{\RV{Y}_2|\RV{D}_2}(100|1) &= \prob{P}_C^{\RV{Y}_2|\RV{D}_2\RV{H}}(100|1,0)\prob{P}_C^{\RV{H}|\RV{D}_2}(0|1) + \prob{P}_C^{\RV{Y}_2|\RV{D}_2\RV{H}}(100|1,1)\prob{P}_C^{\RV{H}|\RV{D}_2}(1|1)\\
     &= 0\cdot 0.5 + 0.5\cdot 0.5\\
@@ -64,7 +66,6 @@ while
     &\neq \prob{P}_C^{\RV{Y}_2|\RV{D}_2}(100|1)
 \end{align}
 
-Even though $(\RV{D}_1,\RV{Y}_1)$ and $(\RV{D}_2,\RV{Y}_2)$ have a shared unknown response, swapping these pairs leads to a different model. What's going on here is that $\RV{D}_1$ and $\RV{D}_2$ are offering the DM different evidence about which response $\RV{H}$ is the true one. If the DM could observe a long enough sequence of pairs then the evidence imparted by the inputs on their own would be screened off, but if the DM is only considering the observation of a single pair then they weigh this evidence heavily in their assessment of the probability of different values of $\RV{H}$.
 \end{example}
 
 Example \ref{ex:no_swapping} motivates the weaker symmetry we call \emph{exchange commutativity}. The key difference is that exchange commutativity allows for the permutability of pairs after conditioning on some arbitrary variable $\RV{W}$. A sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ is exchange commutative if there is some variable $\RV{W}$ such that the conditional $\prob{P}_\alpha^{\RV{Y}|\RV{WD}}$ is symmetric to paired swaps of $\RV{Y}$ and $\RV{D}$.
@@ -77,7 +78,7 @@ Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ along with so
 We say $(\prob{P}_C,\RV{D},\RV{Y})$ commutes with exchange if there is some $\RV{W}$ such that $(\prob{P}_C,\RV{D},\RV{Y})$ commutes with exchange over $\RV{W}$.   
 \end{definition}
 
-A second regularity condition we will impose can be roughly understood as the idea that $\RV{Y}_i$ doesn't ``depend on'' $\RV{D}_j$ for $j\neq i$. As Example \ref{ex:no_swapping} suggests, this cannot be an assumption that $\RV{Y}_i$ doesn't depend on $\RV{D}_j$ unconditionally; $\RV{D}_j$ could, after all, offer some evidence about the state of the shared response $\RV{H}$. Instead, we assume that $\RV{Y}_i$ doesn't depend on non-corresponding $\RV{X}_j$ after conditioning on some auxiliary $\RV{W}$.
+A second regularity condition we will consider can be roughly understood as the idea that $\RV{Y}_i$ doesn't ``depend on'' $\RV{D}_j$ for $j\neq i$. As Example \ref{ex:no_swapping} suggests, this cannot be an assumption that $\RV{Y}_i$ doesn't depend on $\RV{D}_j$ unconditionally; $\RV{D}_j$ could, after all, offer some evidence about the state of the shared response $\RV{H}$. Instead, we assume that $\RV{Y}_i$ doesn't depend on non-corresponding $\RV{X}_j$ after conditioning on some auxiliary $\RV{W}$.
 
 \begin{definition}[Locality]\label{def:caus_cont}
 Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ along with some $\RV{W}:\Omega\to W$, the model is \emph{local} over $\RV{W}$ if for all $\alpha\in C$, $n\in \mathbb{N}$, $\RV{Y}_i\CI^e_{\prob{P}_C} \RV{X}_{\{i,\infty)}|(\RV{W},\RV{X}_i,\text{id}_C)$. If there is some $\RV{W}$ such that $(\prob{P}_C,\RV{D},\RV{Y})$ is local over $\RV{W}$ then we say $(\prob{P}_C,\RV{D},\RV{Y})$ is local.
@@ -107,9 +108,9 @@ Appendix \ref{app:examples_symmetries} sets out two additional properties of the
 
 In this section, we state Theorem \ref{th:ciid_rep_kernel}, which shows that a sequential input output model $(\prob{P}_\cdot,\RV{D},\RV{Y})$ features pairs $(\RV{D}_i,\RV{Y}_i)$ related by conditionally independent and identical responses if and only if it is IO contractible over some variable $\RV{W}$.
 
-The proof of the theorem is involved, and can be found in its entirety Appendix \ref{app:representation_proof}. Here we just introduce enough to explain the key terms in the theorem statement. 
+The proof of the theorem is involved, and can be found in its entirety Appendix \ref{app:representation_proof}. Note that we employ a string diagram notation in some steps of the proof, explained in Appendix \ref{ssec:mken_diagrams}. Here we just introduce enough to explain the key terms in the theorem statement. 
 
-\subsection{Background}\label{sec:rep_theorem_background}
+\subsection{Preliminaries}\label{sec:rep_theorem_background}
 
 \begin{definition}[Input count variable]\label{def:count_of_inputs}
 Given a sequential input-output model $(\prob{P}_C,\RV{D},\RV{Y})$ with countable $D$, $\#_{j}^k$ is the variable
@@ -266,24 +267,23 @@ The particular assumption we have in mind is, in the world of causal graphical m
 In practice, we propose that it would be very rare to have both of these datasets and treat them as interchangeable in this manner. Example \ref{ex:no_infinite_swapping} makes a similar point.
 
 \begin{example}\label{ex:no_infinite_swapping}
-Suppose we have two sequences of binary pairs $((\RV{D},\RV{X}),\RV{Y}):=((\RV{D}_i,\RV{X}_i),\RV{Y}_i)_{i\in \mathbb{N}}$ the $\RV{D}_i$s represent whether patient $i$ was given a particular medicine. The $\RV{D}_i$s were assigned uniformly according to some source of randomness for even $i\geq 2$, while what exactly determined the $\RV{D}_j$ for odd $j$ is not known and is likely to have involved patient or doctor discretion. The $\RV{X}_i$s are covariates, and the $\RV{Y}_i$s record binarized outcomes of the treatment. $\RV{D}_0$ is up to the decision maker, set deterministically according to $\alpha\in 0,1$. Within both the even and the odd indices of $\RV{D}$ both options are taken infinitely often with probability 1.
+Suppose an experiment is done which assigns some medical treatment $\RV{D}_i$ uniformly according to some random signal to patients for even $i$, and allows assignment by patient and doctor discretion for odd $i$. $\RV{Y}_i$ is a binary variable recording some health outcome of interest and $\RV{X}_i$ is some vector of covariates. The sequence $(\RV{D}_c,\RV{X}_c,\RV{Y}_c)$ is associated with the consequences of a decision maker's choices, where $c$ is some special character not in $\mathbb{N}$.
 
 According to Theorem \ref{th:infinite_condition_swaps}, the assumption of conditionally independent and identical responses applied to $((\RV{D},\RV{X}),\RV{Y})$ implies
 \begin{align}
-    \prob{P}_\alpha^{\RV{Y}_0|\RV{D}_0\RV{X}_0\RV{D}_{\text{odds}}\RV{X}_{\text{odds}}\RV{Y}_{\text{odds}}}&=\prob{P}_\alpha^{\RV{Y}_0|\RV{D}_0\RV{D}_{\text{evens}\setminus\{0\}}\RV{X}_{\text{evens}\setminus\{0\}}\RV{Y}_{\text{evens}\setminus\{0\}}}\\
-    &=\prob{P}_\alpha^{\RV{Y}_2|\RV{D}_2\RV{X}_2\RV{X}_{\text{evens}\setminus\{0,2\}}\RV{Y}_{\text{evens}\setminus\{0,2\}}}\\
-    &=\prob{P}_\alpha^{\RV{Y}_2|\RV{D}_2\RV{X}_2\RV{X}_{\text{odds}}\RV{Y}_{\text{odds}}}
+    \prob{P}_\alpha^{\RV{Y}_c|\RV{D}_c\RV{X}_c\RV{D}_{\text{odds}}\RV{X}_{\text{odds}}\RV{Y}_{\text{odds}}}&=\prob{P}_\alpha^{\RV{Y}_c|\RV{D}_c\RV{X}_c\RV{D}_{\text{evens}\setminus\{0\}}\RV{X}_{\text{evens}\setminus\{0\}}\RV{Y}_{\text{evens}\setminus\{0\}}}\\
+    &=\prob{P}_\alpha^{\RV{Y}_2|\RV{D}_2\RV{X}_2\RV{D}_{\text{evens}}\RV{X}_{\text{evens}\setminus\{2\}}\RV{Y}_{\text{evens}\setminus\{2\}}}\\
+    &=\prob{P}_\alpha^{\RV{Y}_2|\RV{D}_2\RV{X}_2\RV{D}_{\text{odds}}\RV{X}_{\text{odds}}\RV{Y}_{\text{odds}}}
 \end{align}
 
-That is, under this assumption, four problems are deemed identical:
+That is, under this assumption, the following four problems are deemed identical:
 \begin{itemize}
-    \item Predicting a held-out experimental outcome from the experimental data
-    \item Predicting a held-out experimental outcome from the observational data
     \item Predicting the outcome of the decision maker's input from the experimental data
     \item Predicting the outcome of the decision maker's input from the observational data
+    \item Predicting a held-out experimental outcome from the experimental data
+    \item Predicting a held-out experimental outcome from the observational data
 \end{itemize}
-
-But the proposition that these problems are \emph{identical} is hard to swallow: despite the obvious differences in the procedures used to obtain the various sequences of pairs, such an assumption nevertheless holds that these differences cannot possibly lead to any differences between the problems discussed.
+Any answer to one problem is, under this assumption, an answer for all of them. This is an assumption; we do not conclude this by comparing answers to these different problems and finding them to be the same, we simply assume it is so. The proposition that these problems are \emph{identical} is hard to swallow: it seems very unlikely, for example, if an analyst aiming to predict experimental results with access to the experimental data would be satisfied with their previous answer derived from the observational data.
 \end{example}
 
 In practice, when both experimental and observational data are available, they are \emph{not} assumed to be interchangeable in this sense -- in fact, the question of how well the observational data predicts experimental outputs is one of substantial interest \citet{eckles_bias_2021,gordon_comparison_2018,gordon_close_2022}.
